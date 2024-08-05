@@ -1,3 +1,12 @@
+"use client";
+
+import Live from "@/components/Live";
+
 export default function Page() {
-  return <h1 className="text-5xl">liveblocks-figma-clone</h1>;
+  return (
+    <div >
+    
+      <Live />
+    </div>
+  );
 }
