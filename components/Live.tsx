@@ -2,7 +2,8 @@ import React, { Key, use, useCallback, useEffect, useState } from "react";
 import LiveCursor from "./cursor/LiveCursor";
 import { useMyPresence, useOthers } from "@liveblocks/react";
 import CursorChat from "./cursor/CursorChat";
-import { CursorMode } from "@/types/type";
+import { CursorMode, Reaction } from "@/types/type";
+import ReactionSelector from "./reaction/FlyingReaction";
 
 const Live = () => {
   const others = useOthers();
@@ -11,12 +12,17 @@ const Live = () => {
 
   const [cursorState, setCursorState] = useState({ mode: CursorMode.Hidden });
 
+  const [reaction, setReaction] = useState<Reaction[]>([]);
+
   const handlePointserMove = useCallback((event: React.PointerEvent) => {
     event.preventDefault();
-    const x = event.clientX - event.currentTarget.getBoundingClientRect().x;
 
-    const y = event.clientY - event.currentTarget.getBoundingClientRect().y;
-    updateMyPresence({ cursor: { x, y } });
+    // check if the cursor is not null and the mode is not ReactionSelector
+    if (cursor == null || cursorState.mode !== CursorMode.ReactionSelector) {
+      const x = event.clientX - event.currentTarget.getBoundingClientRect().x;
+      const y = event.clientY - event.currentTarget.getBoundingClientRect().y;
+      updateMyPresence({ cursor: { x, y } });
+    }
   }, []);
 
   const handlePointserLeave = useCallback((event: React.PointerEvent) => {
@@ -47,6 +53,10 @@ const Live = () => {
       } else if (e.key === "Escape") {
         updateMyPresence({ message: "" });
         setCursorState({ mode: CursorMode.Hidden });
+      } else if (e.key === "e") {
+        setCursorState({
+          mode: CursorMode.ReactionSelector
+        });
       }
     };
 
@@ -81,6 +91,14 @@ const Live = () => {
           cursorState={cursorState}
           setCursorState={setCursorState}
           updateMyPresence={updateMyPresence}
+        />
+      )}
+
+      {cursorState.mode === CursorMode.ReactionSelector && (
+        <ReactionSelector
+          setReaction={reaction => {
+            setReaction(reaction);
+          }}
         />
       )}
 
