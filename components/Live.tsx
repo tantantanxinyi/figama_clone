@@ -26,6 +26,13 @@ const Live = () => {
   // broadcast event to others in the room
   const broadcast = useBroadcastEvent();
 
+  // 只保留那些时间戳比当前时间早不到4000毫秒（4秒）的反应,清理那些所有超过4s的reaction，使得在界面上消失
+  useInterval(() => {
+    setReaction(reaction =>
+      reaction.filter(r => r.timestamp > Date.now() - 4000)
+    );
+  }, 1000);
+
   // reaction 按e 点击一堆表情
   useInterval(() => {
     if (
