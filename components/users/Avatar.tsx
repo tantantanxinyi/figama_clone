@@ -17,6 +17,7 @@ export function Avatar({
         src={`https://liveblocks.io/avatars/avatar-${Math.floor(
           Math.random() * 30
         )}.png`}
+        fill
         className={styles.avatar_picture}
         alt={name}
       />
