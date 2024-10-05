@@ -11,7 +11,7 @@ const Navbar = ({ activeElement }: NavbarProps) => {
       className="flex select-none 
       items-center
       justify-between
-      gap-4 bg-primary px-5 text-white"
+      gap-4 bg-primary-black px-5 text-white"
     >
       <Image src="/assets/logo.svg" alt="FigPro Logo" width={58} height={20} />
       <ActiveUsers />
